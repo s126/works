@@ -1,0 +1,61 @@
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ====	oracle	增加内容	==== ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+↓↓↓↓↓↓
+alter table vip.account add (birthday date);
+alter table vip.account add (sex number);
+alter table vip.account add (cel varchar2(20) );
+alter table vip.account add (eMail varchar2(100));
+
+alter table vip.account drop constraint CK_sex;
+alter table vip.account add constraint CK_sex check(sex=1 or cel=0);
+↑↑↑↑↑↑
+
+
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ====	实体 + get set 	方法 增加内容	==== ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+private String eMail;		//邮箱
+private String cel;			//电话
+private int sex;	
+get set 是 生成的  就不复制了
+
+	
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ====	Dao包 方法 增加内容  	==== ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+String sql = "insert into account (username, password, acctype, birthday, sex, cel, eMail) values (?, ?, ?, ?, ?, ?, ?)";
+		
+ps.setInt(5, account.getSex());
+ps.setString(6, account.getCel());
+ps.setString(7, account.geteMail());
+	
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ====	jsp 页面	增加内容	==== ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+			
+<s:radio label="性别" name="acc.sex" list="#{1:'男', 0:'女' }" value="1"/>
+<s:textfield label="电话" name="acc.cel"/>
+<s:textfield label="E-mail" name="acc.eMail"/>
+			
+			
+			
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ====		LoginAction-registerSubmit-validation.xml 配制	增加内容	==== ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+ 	<!-- 验证手机号码  -->
+	<field name="acc.cel">
+		<field-validator type="regex">
+			<param name="regex"><![CDATA[^1[3-8][0-9]{9}]]></param>
+			<message>不是有效的手机号码  格式不正确</message>
+		</field-validator>
+		
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>手机号码 不能为空</message>
+		</field-validator>
+	</field>
+	
+ 	<!-- 验证E-mail -->
+	<field name="acc.eMail">
+		<field-validator type="email">
+			<message>不是有效的E-mail 格式不正确</message>
+		</field-validator>
+		
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>E-mail 不能为空</message>
+		</field-validator>
+	</field>
