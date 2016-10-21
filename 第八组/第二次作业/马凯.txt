@@ -1,0 +1,93 @@
+﻿1.数据库account 新增字段(email,phone(varchar2(20)),sex int )
+	alter table add email varchar2(20);
+	
+  给sex新增检查约束 alter table account add constraints c_c1 check (sex=1 or sex=2)
+  新增表格Types   表格account(acctype)与之建立外键；
+	create table Types(tid Integer,tname varchar2(20));
+	
+	外键：alter table account add constraints fk_f6 foreign key (acctype) references Types(tid); 
+	
+	为各表新增bean方法
+2.loginDao 
+	修改
+		String sql = "insert into account (username, password, acctype, 
+		birthday,email ,phone ,sex) values (?, ?, ?, ?)";
+		
+	新增：
+		ps.setString(5, account.getEmail());
+		ps.setString(6, account.getPhone());
+		ps.setInt(7, account.getSex() == 1 ? 2 : account.getSex());
+	
+3.新增TypesDao   用于注册页面账号类型选择
+	public Map<String, String>  getTypes(){
+		Map<String, String> map=new HashMap<String, String>();
+		Connection conn = DBUtil.getCon();
+		String sql="select tid, tname from Types where 1=1";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Account account = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				map.put(rs.getInt(1)+"", rs.getString(2));
+			}
+		} catch (Exception e) {
+			
+		}finally{
+			DBUtil.closeAll(rs, ps, conn);
+		}
+		return map;
+	}
+4.LoginAction中新增相应方法并配置struts.xml
+	private Map<String, String> maps=new HashMap<String, String>();
+	public Map<String, String> getMaps() {
+		return maps;
+	}
+
+	public void setMaps(Map<String, String> maps) {
+		this.maps = maps;
+	}
+	
+	public String registerIndex ()	 {
+		maps= new TypesDao().getTypes();
+		if(maps!=null){
+			return SUCCESS;
+		}
+		return "error";
+	}
+	
+	struts.xml新增
+		<action name="register" class="com.s126.demo.action.LoginAction" method="registerIndex">
+			<result>/WEB-INF/jsp/login/register.jsp</result>
+		</action>
+
+	
+4.LoginAction-registerSubmit-validation.xml中
+	增加
+	<!-- 验证邮箱 -->
+ 	<field name="acc.email">
+ 		<field-validator type="email">
+ 			<message>邮箱格式不正确</message>
+ 		</field-validator>
+ 	</field>
+ 	
+ 	<!-- 验证手机号码-->
+ 	<field name="acc.phone">
+ 		<field-validator type="regex">
+ 			<param name="regex"><![CDATA[[1][3,5,8]\d{9}]]></param>
+ 			<message>手机号必须为13,15,18开头的11位数字</message>
+		</field-validator> 	
+ 	</field>
+	
+5.register.jsp
+	新增：	
+		<s:select  label="类型" name="acc.acctype" list="maps"></s:select>
+		<s:textfield label="邮箱" name="acc.email"></s:textfield>
+		<s:textfield label="手机号码" name="acc.phone"></s:textfield>
+		<s:radio lable="性别" name="acc.sex" list="#{1:'男',2:'女'}"></s:radio>
+	
+		
+
+
+	
