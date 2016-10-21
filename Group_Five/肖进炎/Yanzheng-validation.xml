@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+	"-//Apache Struts//XWork Validator 1.0.3//EN"
+	"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+	   <field name="phone">  <!-- 电话 -->
+		   	<field-validator type="requiredstring">
+		   		<message>手机号码不能为空</message>
+		   	</field-validator>
+    		 <field-validator type="regex">
+        		 <param name="regex"><![CDATA[\d{11}]]></param>
+          		  <message>电话格式不对</message>
+  			 </field-validator>
+ 		</field>
+ 		<field name="Email">
+ 			<field-validator type="email">
+ 					<message>邮箱格式不对</message>
+ 			</field-validator>
+ 		</field>
+</validators>

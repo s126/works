@@ -1,0 +1,40 @@
+在注册页面加入邮箱，手机号码，性别字段：alter table account add (email varchar2(50),phone varchar2(20),sex varchar2(2) default '男')
+
+alter table account add constraint sex_check check(sex='男' or sex='女'）;
+
+修改 dao/LoginDao.java 里的 addAccount 方法
+	String sql = "insert into account 
+		(username, password, acctype, birthday, phone, sex, email) 
+			values (?, ?, ?, ?, ?, ?, ?)";
+			
+	ps.setString(5, account.getPhone());
+	ps.setString(6, account.getSex());
+	ps.setString(7, account.getEmail());
+
+
+jsp页面：<s:textfield label="邮箱" name="acc.email" />
+	 <s:textfield label="手机号码" name="acc.phone" />
+	 <s:radio label="性别" name="acc.sex" list="{'男','女'}">
+加入合适的验证：
+
+<validators>
+	<field name="acc.email">
+		<field-validator type="regex">
+		<param name="expression"><![CDATE[^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})]]$</param>
+		<message>Email格式错误</message>
+		</field-validator>
+		<field-validator type="requiredstring">
+ 	        	<message>请填写电子邮箱</message>
+ 	        </field-validator>
+	</field>
+	<field name="acc.phone">
+		<field-validate type="regex">
+			<param name="expression"><![CDATA[^1[3-8]\d{9}$]]></param>
+			<message>手机号必须为13~18开头的11位数字</message>
+		</field-validate>
+		<field-validator type="requiredstring">
+ 	        	<message>请填写手机号码</message>
+ 	        </field-validator>
+	</field>
+	
+</validators>

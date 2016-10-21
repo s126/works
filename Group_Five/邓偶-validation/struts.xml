@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+	<constant name="struts.action.extension" value="html,action,do,," />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+
+
+	<package name="login" namespace="/login" extends="struts-default">
+
+		
+		<!-- 显示注册的页面 -->
+		<!-- 请求的 url 为 localhost:8088/hello/login/register.action -->
+		<action name="register">
+			<result>/WEB-INF/jsp/login/register.jsp</result>
+		</action>
+		
+		<!-- 完成注册相关的操作 -->
+		<!-- 请求的 url 为 localhost:8088/hello/login/registerSubmit.action -->
+		<action name="registerSubmit" class="com.s126.action.LoginAction" method="register">
+			<result >/WEB-INF/jsp/login/login.jsp</result>
+			<result name="fails">/WEB-INF/jsp/login/fail.jsp</result>
+			<result name="input">/WEB-INF/jsp/login/register.jsp</result>
+		</action>
+		
+	</package>
+	
+	
+
+	
+</struts>
