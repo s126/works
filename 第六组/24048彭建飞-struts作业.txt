@@ -1,0 +1,62 @@
+在注册页面中加入邮箱、手机号码、性别字段，并为这些字段写出合适的验证。
+首先在account文件里原先的情况下再创建以下：
+	private String mailbox;
+	private String phone;
+	private int sex;
+	public String getMailbox() {
+		return mailbox;
+	}
+	public void setMailbox(String mailbox) {
+		this.mailbox = mailbox;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public int getSex() {
+		return sex;
+	}
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+	
+然后在LoginAction-registerSubmit-validation.xml文件里新增以下代码：
+	<field name="acc.mailbox">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>邮箱不能为空</message>
+		</field-validator>
+		
+
+		<field-validator type="regex">
+			<param name="regex"><![CDATA[([a-zA-Z0-9_-]){8,11}+@([a-zA-Z0-9]){2,3}+(.com)]]></param>
+			<message>请输入正确邮箱格式</message>
+		</field-validator>
+		
+	</field>
+
+	<field name="acc.phone">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>手机不能为空</message>
+		</field-validator>
+		
+
+		<field-validator type="regex">
+			<param name="regex"><![CDATA[[0-9]{11}]]></param>
+			<message>请输入正确手机格式</message>
+		</field-validator>
+		
+	</field>
+	
+然后在页面register.jsp里新增以下代码：
+	<s:textfield label="邮箱" name="acc.mailbox" />
+	<s:textfield label="手机" name="acc.phone" />
+	<s:select label="性别" name="acc.sex" list=" #{1:'男', 2:'女', 3:'人妖'}"></s:select>
+
+
+
+	
+

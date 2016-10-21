@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+	"-//Apache Struts//XWork Validator 1.0.3//EN"
+	"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+	
+	
+	<validators>
+		<!-- 账号 -->
+		<field name="name">
+			<field-validator type="requiredstring">
+				<param name="trim">true</param>
+				<message>账号不能为空</message>
+			</field-validator>
+		</field>
+		
+		<!-- 出生日期 -->
+		<field name="birthday">
+			<field-validator type="required">
+				<param name="trim">true</param>
+				<message>生日不能为空</message>
+			</field-validator>
+			<field-validator type="date">
+				<param name="min">1900-1-1</param>
+				<param name="max">2016-12-31</param>
+				<message>出生日期在1900-1-1 至 2016-12-31</message>
+			</field-validator>
+		</field>
+		
+		<!-- 电话 -->
+		<field name="photonum">
+			<field-validator type="requiredstring">
+				<param name="trim">true</param>
+				<message>电话不能为空</message>
+			</field-validator>
+			<field-validator type="regex">
+				<param name="regex"><![CDATA[^1[3-8][0-9]{9}]]></param>
+				<message>手机号码格式不正确</message>
+			</field-validator>
+		</field>
+		
+		<!-- 邮箱-->
+		<field name="email">
+			<field-validator type="email">
+				<message>Email格式不正确</message>
+			</field-validator>
+		</field>
+		
+		<!-- 密码 -->
+		<field name="password">
+			<field-validator type="requiredstring">
+				<param name="trim">true</param>
+				<message>密码不能为空</message>
+			</field-validator>
+			<field-validator type="stringlength">
+				<param name="minLength">6</param>
+				<param name="maxLength">20</param>
+				<message>密码长度必须是6-20位</message>
+			</field-validator>
+		</field>
+			
+		<!-- 确认密码 -->
+		<field name="passwords">
+			<field-validator type="fieldexpression">
+				<param name="expression">password!=passwords</param>
+				<message>两次密码不一样</message>
+			</field-validator>
+		</field>
+	
+	
+	</validators>

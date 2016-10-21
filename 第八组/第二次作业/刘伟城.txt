@@ -1,0 +1,50 @@
+﻿1.在数据库 account 表那添加 上 邮箱，手机，性别字段
+	alter table account add (
+		email varchar2(30),		-- 邮箱
+		phone varchar2(20),		-- 手机
+		sex	int					-- 性别
+	)
+
+2.在 bean/Account.java 里的 Account 添加上 邮箱，手机，性别字段
+	private String email;		 // 邮箱
+	private String phone;		 // 手机号码
+	private int sex;			 // 性别		1男生 ， 2 女生 
+	// getter setter 方法
+
+3.修改 dao/LoginDao.java 里的 addAccount 方法
+	String sql = "insert into account 
+		(username, password, acctype, birthday, phone, sex, email) 
+			values (?, ?, ?, ?, ?, ?, ?)";
+			
+	ps.setString(5, account.getPhone());
+	ps.setInt(6, account.getSex());
+	ps.setString(7, account.getEmail());
+
+4.在 regist.jsp 页面添加
+	<s:textfield label="手机" name="acc.phone" />
+	<s:textfield label="邮箱" type="email" name="acc.email" />
+	<s:radio list="#{1:'男生',2:'女生' }" label="性别" name="acc.sex" value="1" />
+
+5.增加相关验证。
+	<!-- 规范手机号码  手机号码是11位数  -->
+ 	<field name="acc.phone">
+ 	    <field-validator type="regex">
+ 	        <param name="regex"><![CDATA[^1[3-8]\d{9}$]]></param>
+ 	        <message>手机号必须为13~18开头的11位数字</message>
+ 	    </field-validator>
+ 	    <field-validator type="requiredstring">
+ 	        <message>请填写手机号码</message>
+ 	    </field-validator>
+ 	</field>
+
+ 	<!-- 验证电子邮箱  -->
+ 	<field name="acc.email">
+ 	    <field-validator type="requiredstring">
+ 	        <message>请填写电子邮箱</message>
+ 	    </field-validator>
+ 	    <field-validator type="email">
+ 	        <message>邮箱格式不正确</message>
+ 	    </field-validator>
+ 	</field>
+
+			

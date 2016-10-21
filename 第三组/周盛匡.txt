@@ -1,0 +1,62 @@
+	private String email;
+	private String phone;
+	private String sex;
+	
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+
+
+
+
+<file name = "email">
+		<field-validator type="email">
+		<param name="email"><^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$ ></param>
+			<message>邮箱格式不正确</message>
+		</field-validator>
+	</file>
+	
+	<file name = "phone">
+		<field-validator type="regex">
+		<param name="regex"><![CDATA[[\d]{11}]]></param>
+			<message>手机号为11位</message>
+		</field-validator>
+	</file><file name = "sex">
+		<field-validator type="required">
+		<param name=""required""><^[\u4E00-\uFA29\uE7C7-\uE7F3]+-[男女]$></param>
+			<message>性别为男或女</message>
+		</field-validator>
+	</file>
+
+
+
+
+
+
+
+
+
+
+<s:form>
+		<s:textfield type ="email" name="email" ></s:textfield>
+		<s:textfield type ="regex" name="phone"></s:textfield>
+		<s:textfield type ="required" name="sex"></s:textfield>
+
+	</s:form>

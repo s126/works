@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+	"-//Apache Struts//XWork Validator 1.0.3//EN"
+	"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+
+	<!-- 验证 LoginAction.register 方法里的字段 -->
+
+	<!-- 页面上的特定字段，其中的 name 标签要跟 jsp 中的 name 标签相对应 -->
+	<!-- field 标签，是对页面上特定的字段进行验证 -->
+	<field name="acc.username">
+	
+		<!-- 配置我们的验证类型 -->
+		<!-- 类型 requiredstring 用来保证我们输入的值不为空 -->
+		<field-validator type="requiredstring">
+			<!-- param trim -->
+			<param name="trim">true</param>
+			<!-- 如果输入的值不符合规范，则显示下面错误，message 用来定制错误信息 -->
+			<message>用户账号不能为空</message>
+		</field-validator>
+		
+		<!-- 限定我们注册的账号，需要是 4 到 20 个字符的长度 -->
+		<field-validator type="regex">
+			<param name="regex"><![CDATA[[a-zA-Z]{4,20}]]></param>
+			<message>账号需要由4位以上英文字符组成</message>
+		</field-validator>
+		
+	</field>
+	
+	
+	
+	<!-- 验证我们的密码字段 -->
+	<field name="acc.password">
+		<field-validator type="stringlength">
+			<param name="minLength">4</param>
+			<param name="maxLength">8</param>
+			<message>密码必须大于3位，小于8位</message>
+		</field-validator>
+		
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>密码不能为空</message>
+		</field-validator>
+	</field>
+	
+	
+	
+	
+ 	<!-- 验证生日 -->
+ 	<field name="acc.birthday">
+ 		<field-validator type="required">
+ 			<message>请填写生日</message>
+ 		</field-validator>
+ 		<field-validator type="date">
+ 			<param name="min">1900-1-1</param>
+ 			<param name="max">2010-12-31</param>
+ 			<message>出生日期应在1900到2010年之间</message>
+ 		</field-validator>
+ 	</field>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	<!-- 限定，两次输入的密码必须要一致 -->
+ 	<field name="pwd">
+ 		<field-validator type="fieldexpression">
+ 		<param name="expression">acc.password==pwd</param>
+ 		<message>两次密码不正确</message>
+ 		</field-validator>
+ 	</field>
+	
+
+</validators>
+
+
+
+
+
+
+
+<!-- 
+
+<validators>
+	
+	<field name="acc.username">
+		<field-validator type="required">
+			<message>名字不能为空</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="regex"><![CDATA[\w{4,}]]></param>
+			<message>字符大于4位</message>
+		</field-validator>
+	</field>
+	
+	
+	
+	<field name="acc.password">
+		<field-validator type="required">
+			<message>不能为空</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="regex"><![CDATA[\w{6,}]]></param>
+			<message>密码字符大于6位</message>
+		</field-validator>
+	</field>
+
+	<validator type="fieldexpression">
+		<param name="fieldName">pwd</param>
+		<param name="expression">pwd==acc.password</param>
+		<message>输入的两次密码必须相同</message>
+	</validator>
+	
+	<field name="acc.birthday">
+		<field-validator type="date">
+			<param name="min">1900-01-01</param>
+			<param name="max">2010-01-01</param>
+			<message>生日日期介于 ${min} 到 ${max}</message>
+		</field-validator>
+	</field>
+
+</validators> -->
