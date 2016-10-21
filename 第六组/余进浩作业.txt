@@ -1,0 +1,68 @@
+修改实体类，增加邮箱，手机号码，性别
+	private String email;
+	private String phone;
+	private String sex;
+	写getter setter方法
+Dao包
+	public boolean addAccount(Account account) {
+		Connection conn = DBUtil.getCon();
+		String sql = "insert into account (username, password, acctype, birthday,email,phonenum,sex) values (?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, account.getUsername());
+			ps.setString(2, account.getPassword());
+			ps.setInt(3, account.getAcctype() == 0 ? 1 : account.getAcctype());
+			ps.setDate(4, new Date(account.getBirthday().getTime()));
+			ps.setString(5, account.getEmail());
+			ps.setString(6, account.getPhonenum());
+			ps.setString(7, account.getSex());
+			ps.execute();
+
+			conn.commit();
+
+			return true;
+
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return false;
+
+		} finally {
+			DBUtil.closeAll(rs, ps, conn);
+		}
+	}
+修改jsp页面，增加邮箱，手机号码，性别：
+		<s:textfield label="邮箱" name="email"></s:textfield>
+		<s:textfield label="电话号码" name="phone"> </s:textfield>
+		<s:select label="性别" list="#{'男':'男','女':'女'} "></s:select>
+在action/LoginAction-register-validation.xml中增加相应的验证
+
+手机号码，邮箱，性别XML
+	<field name="email">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>邮箱不能为空</message>
+		</field-validator>
+		<field-validator type="email">
+			<message>邮箱格式不对</message>
+		</field-validator>
+	</field>
+	<field name="phone">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>手机不能为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">11</param>
+			<param name="maxLength">11</param>
+			<message>请输入11位手机号码</message>
+		</field-validator>
+	</field>

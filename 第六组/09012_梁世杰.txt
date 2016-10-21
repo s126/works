@@ -1,0 +1,69 @@
+1.在account 数据库中，增加邮箱，手机号码，性别字段
+	alter table account add(email varchar2(40),phonenum,varchar2(20),sex varchar2(4))
+2.修改bean/Account.java，增加邮箱，手机号码，性别
+	private String email;
+	private String phonenum;
+	private String sex;
+	//getter setter方法略
+3.重新编写dao/LoginDao.java的addAccount
+	public boolean addAccount(Account account) {
+		Connection conn = DBUtil.getCon();
+		String sql = "insert into account (username, password, acctype, birthday,email,phonenum,sex) values (?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			// 事务处理
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, account.getUsername());
+			ps.setString(2, account.getPassword());
+			ps.setInt(3, account.getAcctype() == 0 ? 1 : account.getAcctype());
+			ps.setDate(4, new Date(account.getBirthday().getTime()));
+			ps.setString(5, account.getEmail());
+			ps.setString(6, account.getPhonenum());
+			ps.setString(7, account.getSex());
+			ps.execute();
+
+			conn.commit();
+
+			return true;
+
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return false;
+
+		} finally {
+			DBUtil.closeAll(rs, ps, conn);
+		}
+	}
+4.修改我们的 login/register.jsp，增加一个邮箱，手机号码，性别：
+		<s:textfield label="邮箱" name="acc.email" />
+		<s:textfield label="手机号码"  name="acc.phonenum" />
+		<s:radio label="性别" name="acc.sex" list="#{'男':'男','女':'女' }" value="1"></s:radio>
+5. 在action/LoginAction-register-validation.xml中增加相应的验证
+<!-- 手机号码，邮箱，性别 -->
+	<field name="acc.email">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+ 			<message>邮箱不能为空</message>
+ 		</field-validator>
+		<field-validator type="email">
+ 			<message>邮箱格式有误，请重新填写</message>
+ 		</field-validator>
+	</field>
+	<field name="acc.phonenum">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+ 			<message>手机号码不能为空</message>
+ 		</field-validator>
+		<field-validator type="regex">
+			<param name="regexExpression"><![CDATA[[1][3-8]\d{9}]]></param>
+ 			<message>手机格式有误，请重新填写</message>
+ 		</field-validator>
+	</field>			
