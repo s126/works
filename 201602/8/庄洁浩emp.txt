@@ -1,51 +1,70 @@
 EemDao
 
 
-public class EmpDao extends BaseTest {
+public class EmpDao extends BaseDao{
 	/*查询所有*/
 	public List<Emp> getAll() {
-		Query query = session.createQuery("from emp");
-		List<Emp> list  = query.list();
+		Session session = HibernateUtil.getSession();		
+		Query query = session.createQuery("from Emp");
+		
+		List<Emp> list = query.list();
+	
+		session.close();	
 		return list;
 	}
 	/*模糊查询*/
 	public List<Emp> getSome(String input) {
-		Query query = session.createQuery("from emp where upper(ename) like upper(?) or upper(job) like upper(?)");
+		Query query = session.createQuery("from Emp where upper(ename) like upper(?) or upper(job) like upper(?)");
 		List<Emp> list  = query.list();
+		session.close();		
 		return list;
 	}
 	/*添加员工*/
 	public boolean add(Emp emp) {
-		boolean bl = false;
+		Session session = HibernateUtil.getSession();		
+		
+		transaction = session.beginTransaction();
 		try {
 			session.saveOrUpdate(emp);
-			transaction.commit();
+			transaction .commit();
+			return true;
 		} catch (Exception e) {
+			transaction.rollback();
 			e.printStackTrace();
+			returnt false;
+		}finally{
+			session.close();
 		}
-		return bl;
 	}
 	/*删除*/
 	public boolean delete(int empno) {
-		boolean bl = false;
+		Session session = HibernateUtil.getSession();		
+		
+		transaction = session.beginTransaction();
 		try {
 			session.delete(empno);
 			transaction.commit();
+			return true;
 		} catch (Exception e) {
+			transaction.rollback();
 			e.printStackTrace();
+			returnt false;
+		}finally{
+			session.close();
 		}
-		return bl;
 	}
 	/*查工资*/
 	public List<Emp> getBySalRange(int min, int max) {
-		Query query = session.createQuery(Emp.class, sql, min, max);
-		List<Emp> list = query.list();
-		return list;
+		Session session = HibernateUtil.getSession();
+		List<Emp> emp = session.createQuery("empno, ename, job, sal from Emp where sal>=? and sal<=?").setInteger(0, 				min).setInteger(1, max).list();
+		session.close();
+		return emp;
 	}
 	/*查工作*/
 	public List<String> getJobs() {
-		Query query = session.createQuery("distinct job from emp");
+		Query query = session.createQuery("distinct job from Emp");
 		List<String> list = query.list();
+		session.close();
 		return list;
 	}
 }	
