@@ -1,0 +1,51 @@
+EemDao
+
+
+public class EmpDao extends BaseTest {
+	/*查询所有*/
+	public List<Emp> getAll() {
+		Query query = session.createQuery("from emp");
+		List<Emp> list  = query.list();
+		return list;
+	}
+	/*模糊查询*/
+	public List<Emp> getSome(String input) {
+		Query query = session.createQuery("from emp where upper(ename) like upper(?) or upper(job) like upper(?)");
+		List<Emp> list  = query.list();
+		return list;
+	}
+	/*添加员工*/
+	public boolean add(Emp emp) {
+		boolean bl = false;
+		try {
+			session.saveOrUpdate(emp);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bl;
+	}
+	/*删除*/
+	public boolean delete(int empno) {
+		boolean bl = false;
+		try {
+			session.delete(empno);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bl;
+	}
+	/*查工资*/
+	public List<Emp> getBySalRange(int min, int max) {
+		Query query = session.createQuery(Emp.class, sql, min, max);
+		List<Emp> list = query.list();
+		return list;
+	}
+	/*查工作*/
+	public List<String> getJobs() {
+		Query query = session.createQuery("distinct job from emp");
+		List<String> list = query.list();
+		return list;
+	}
+}	
