@@ -1,0 +1,75 @@
+在hello.cfg.xml 里添加
+
+		<mapping resource="s126/hello/bean/Emp.hbm.xml"/>
+
+
+
+ 
+创建一个emp.hbm.xml
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-11-6 20:49:47 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="s126.hello.bean.Emp" table="EMP">
+        <id name="empno" type="int">
+            <column name="EMPNO" />
+            <generator class="assigned" />
+        </id>
+        <property name="ename" type="java.lang.String">
+            <column name="ENAME" />
+        </property>
+        <property name="sal" type="int">
+            <column name="SAL" />
+        </property>
+        <property name="job" type="java.lang.String">
+            <column name="JOB" />
+        </property>
+    </class>
+</hibernate-mapping>
+
+
+
+
+在EmpDao里改为hibernate的方法
+
+package s126.hello.dao;
+
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import s126.hello.util.HBUtil;
+
+public class EmpDao extends BaseDao {
+
+	public static Session session = null;
+
+	public List<String> getJobs() {
+		
+		List<String> li = new ArrayList<String>();
+		try {
+			Session session = HibernateUtil.getSession();
+		    Transaction transaction = session.beginTransaction();
+		    
+			li = session.createQuery("select distinct job from emp").list();
+			session.save(li);
+			
+			session.close();
+			transaction.commit();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			
+		}
+		return li;
+
+	}
+
+}
+
