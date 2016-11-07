@@ -7,8 +7,8 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
-        <property name="hibernate.connection.username">vip</property>
-        <property name="hibernate.connection.password">vip</property>
+        <property name="hibernate.connection.username">user01</property>
+        <property name="hibernate.connection.password">123</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
         
         <property name="hibernate.show_sql">true</property>
@@ -18,6 +18,8 @@
         <mapping resource="s126/hello/bean/item.hbm.xml" />
         <mapping resource="s126/hello/bean/Account.hbm.xml"  />
         <mapping resource="s126/hello/bean/AccType.hbm.xml"  />
+        <mapping resource="s126/hello/bean/Item.hbm.xml"  />
+        <mapping resource="s126/hello/bean/Emp.hbm.xml"  />
     </session-factory>
     
 </hibernate-configuration>

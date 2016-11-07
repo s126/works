@@ -1,39 +1,20 @@
 package s126.hello.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import s126.hello.bean.AccType;
 import s126.hello.bean.Account;
-import s126.hello.util.DBUtil;
+import s126.hello.util.HibernateUtil;
 
 
-public class LoginDao extends BaseDao {
-	private SessionFactory sessionFactory ;
-	private Session session;
+public class LoginDao extends HibernateUtil {
+	Session session = null;
 	Transaction transaction = null;
-	// 初始化加载配置对象
-	Configuration config = new Configuration().configure("hello.cfg.xml");
-	// 初始化服务
-	ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
-	// 初始化 SessionFactory
-	sessionFactory = config.buildSessionFactory(serviceRegistry);
-	
-	
 	
 	/**
 	 * 增加一个新的账号.
@@ -44,7 +25,7 @@ public class LoginDao extends BaseDao {
 		boolean bl = false; 
 		try {
 			
-			session = sessionFactory.openSession();
+			session = HibernateUtil.getSession();
 			transaction = session.beginTransaction();
 			
 			session.save(account);
@@ -70,8 +51,9 @@ public class LoginDao extends BaseDao {
 	public Map<Integer, String> getAccTypes() {
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		try {
-			session = sessionFactory.openSession();
+			session = HibernateUtil.getSession();
 			transaction = session.beginTransaction();
+			@SuppressWarnings("unchecked")
 			List<AccType> list =session.createQuery("from AccType").list();
 			
 			for(AccType t : list) {
@@ -80,7 +62,7 @@ public class LoginDao extends BaseDao {
 			
 			transaction.commit();
 			session.close();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			e.printStackTrace();
 		}
@@ -95,20 +77,36 @@ public class LoginDao extends BaseDao {
 	 * @param password
 	 */
 	public Account checkLogin(String username, String password) {
-		String sql = "select username, acctype, lastlogin from account where username=? and password=?";
+		
+		/*String sql = "select username, acctype, lastlogin from account where username=? and password=?";
 		List<Account> accs = query(Account.class, sql, username, password);
 		if(accs.size() > 0)
 			return accs.get(0);
-		return null;
+		return null;*/
+		
+		Session session = HibernateUtil.getSession();
+		@SuppressWarnings("unchecked")
+		List<Account> acclist = session.createQuery("from Account where username=? and password=?").setString(0, username).setString(1, password).list();
+		session.close();
+		
+		return acclist.size() > 0 ? acclist.get(0) : null;
+		
+		
+		
 	}
 
 
 	/**
-	 * 检查用户名是否已经存在
+	 * 检查用户名是否已经存在，
 	 * @param username
 	 */
 	public boolean checkEname(String username) {
-		return query(Account.class, "select username from account where username = ?", username).size() > 0;
+		
+		Session session = HibernateUtil.getSession();
+		@SuppressWarnings("unchecked")
+		List<Account> acclist = session.createQuery("from Account where username=? ").setString(0, username).list();
+		session.close();
+		return acclist.size() > 0;
 	}
 	
 }
