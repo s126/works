@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" /> 
+	<constant name="struts.action.extension" value="html,," />
+	<!-- <constant name="struts.enable.DynamicMethodInvocation" value="false" /> -->
+
+
+	<!-- 第一个模块，登陆注册 -->
+	<package name="login" namespace="/user" extends="struts-default">
+		<!-- 全局操作 --><!-- 
+		<global-results>
+			<result name="error">/WEB-INF/user/error.jsp</result>
+		</global-results> -->
+		
+		<!-- 自动跳转登录页面 -->
+		<action name="login">
+			<result>/WEB-INF/user/login.jsp</result>
+		</action>
+		 <action name="loginSubmit" class="com.user.action.LoginAction" method="login">
+			<result name="success">/WEB-INF/index.jsp</result>
+			<result name="fail">/WEB-INF/user/error.jsp</result>
+			<result name="input">/WEB-INF/user/login.jsp</result>
+		</action>
+		
+		<!-- 自动跳转注册页面 -->
+		<action name="regist">
+			<result>/WEB-INF/user/regist.jsp</result>
+		</action>
+		<action name="registSubmit" class="com.user.action.RegistAction" method="regist">
+			<result name="success">/WEB-INF/user/login.jsp</result>
+			<result name="error">/WEB-INF/user/error.jsp</result>
+			<result name="input">/WEB-INF/user/regist.jsp</result>
+		</action> 
+	</package>
+
+
+</struts>
