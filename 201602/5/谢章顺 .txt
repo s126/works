@@ -1,0 +1,17 @@
+public boolean insertAll(Object obj){
+		Session session=HibernateUtils.openSession();
+		Transaction tx=null;
+		try{
+			tx= session.beginTransaction();
+			session.save(obj);
+			tx.commit();
+			return true;
+		}catch(RuntimeException e){
+			if(tx!=null) 
+				tx.rollback();
+			return false;
+		}finally{
+			if(tx!=null)	
+				session.close();
+		}
+	}
