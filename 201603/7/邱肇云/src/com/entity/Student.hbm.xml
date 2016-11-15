@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+   <hibernate-mapping>
+   	  <class name="com.entity.Student_entity" table="student">
+   	  	 <id name="Sid" type="long" column="sid">
+   	  	 	<generator class="increment"></generator><!-- 设置主键 -->
+   	  	 </id>
+   	  	 
+   	  	 <property name="sname" type="String">
+   				<column name="sname"></column>
+   			</property>
+   			
+   	  	 <property name="sex" type="String">
+   	  	 	<column name="sex"></column>
+   	  	 </property>
+   	  	 
+   	  	  <property name="score" type="int">
+   	  	 	<column name="score"></column>
+   	  	 </property>
+   	  	 
+   	  	 <property name="remove" type="String">
+   	  	 	<column name="remove"></column>
+   	  	 </property>
+   	  	 
+   	  	 <set name="entities" table="teacher">
+   	  	 	<key column="Sid"></key>
+   	  	 	<many-to-many class="com.entity.Teacher_entity">
+   	  	 	
+   	  	 	</many-to-many>
+   	  	 </set>
+   	  </class>
+   
+   </hibernate-mapping>
