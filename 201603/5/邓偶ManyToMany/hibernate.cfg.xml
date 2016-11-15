@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+
+<hibernate-configuration>
+
+<session-factory>
+	<property name="hibernate.connection.driver_class">
+		oracle.jdbc.driver.OracleDriver
+	</property>
+	<property name="hibernate.connection.url">
+		jdbc:oracle:thin:@localhost:1521:orcl
+	</property>
+	<property name="hibernate.connection.username">dengou</property>
+	<property name="hibernate.connection.password">123123</property>
+	<property name="hibernate.dialect">
+		org.hibernate.dialect.Oracle10gDialect
+	</property>
+
+	<property name="hibernate.show_sql">true</property>
+	<property name="hibernate.format_sql">true</property>
+	<property name="hibernate.hbm2ddl.auto">update</property>
+<!-- 	<property name="dialect">org.hibernate.dialect.DB2Dialect</property> -->
+
+
+<!-- 	<mapping resource="s126/hello/bean/Account.hbm.xml" /> -->
+<!-- 	<mapping resource="s126/hello/bean/Emp.hbm.xml" /> -->
+	
+<!-- 	<mapping resource="hibernate/guanlian/Author.hbm.xml" /> -->
+<!-- 	<mapping resource="hibernate/guanlian/Book.hbm.xml" /> -->
+	
+	<!-- hibernate.ManyToMany  Teacher and Student -->
+<!-- 	<mapping class="hibernate.ManyToMany.Student" /> -->
+<!-- 	<mapping class="hibernate.ManyToMany.Teacher" /> -->
+
+	<mapping resource="hibernate/ManyToMany/Student.hbm.xml" />
+	<mapping resource="hibernate/ManyToMany/Teacher.hbm.xml" />
+
+
+
+	<!-- hibernate.OneToOne  Person and PersonId -->
+<!-- 	<mapping resource="hibernate/OneToOne/Person.hbm.xml" /> -->
+<!-- 	<mapping resource="hibernate/OneToOne/PersonId.hbm.xml" /> -->
+
+</session-factory>
+
+</hibernate-configuration>

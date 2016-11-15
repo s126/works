@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+    <hibernate-mapping>
+    	<class name="hibernate.assoc.many2many.Student" >
+    		<id name="sid" >
+    			<generator class="native"></generator>
+    		</id>
+    		<property name="name"></property>
+    		<property name="qq"></property>
+    		<set name="teachers" cascade="save-update" table="class">
+    			<!-- key 当前表主键 -->
+    			<key column="sid"></key>
+    			<!-- m-t-m 的column 指向 Class 的主键 -->
+    			<many-to-many column="tid" class="hibernate.assoc.many2many.Teacher"></many-to-many>
+    		</set>
+    		
+    	</class>
+    </hibernate-mapping>

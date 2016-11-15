@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    <hibernate-mapping>
+    	<class name="hibernate.assoc.many2many.Teacher">
+    		<id name="tid">
+    			<generator class="native"></generator>
+    		</id>
+    		<property name="name"></property>
+    		<property name="tel"></property>
+    		<set name="students" table="class">
+    			<key column="tid"></key>
+    			<many-to-many column="sid" class="hibernate.assoc.many2many.Student"></many-to-many>
+    		</set>
+    	</class>
+    </hibernate-mapping>
