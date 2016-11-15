@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-11-13 20:31:04 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.my.bean.ClassRoom" table="CLASSROOM_">
+        <id name="cid" type="int">
+            <column name="CID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <set name="students" table="STUDENT" inverse="false" lazy="false"  cascade="all" >
+            <key>
+                <column name="CID" />
+            </key>
+            <one-to-many class="com.my.bean.Student" />
+        </set>
+        <set name="teachers" table="TEACHER" inverse="false" lazy="false"  cascade="all">
+            <key>
+                <column name="CID" />
+            </key>
+            <one-to-many class="com.my.bean.Teacher" />
+        </set>
+    </class>
+</hibernate-mapping>

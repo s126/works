@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    	<!-- 数据库链接配置 -->
+    	
+		<!-- driver配置 -->
+		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		
+		<!-- url配置 -->
+		<property name="connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
+		
+		<!-- 帐号 -->
+		<property name="connection.username">vip</property>
+		
+		<!-- 密码 -->
+		<property name="connection.password">vip</property>
+		
+		<!-- 方言（针对特定是的关系型数据库生成优化的sql） -->
+		<property name="dialect">org.hibernate.dialect.Oracle12cDialect</property>
+		
+		<!-- 设置默认的数据库连接池 -->
+		<property name="connection.pool_size">5</property>
+		
+		<!-- 显示sql -->
+		<property name="show_sql">true</property>
+		
+		<!-- 格式化sql -->
+		<property name="format_sql">true</property>
+		
+		<!-- 根据 schema工具 -->
+		<!-- 自动创建表
+		 create:先删除，再创建
+		 update:如果表不存在，就创建，不一样就更新，一样就什么都不做 
+		 create-drop:初始化时创建表，SessionFactory执行close()时删除 
+		 validate:验证表机构是否一致，如果不一致，就抛异常 -->
+		<property name="hbm2ddl.auto">update</property>
+		
+		<!--数据表配置文件 -->
+		<mapping resource="com/my/bean/Student.hbm.xml" /> 
+		<mapping resource="com/my/bean/Teacher.hbm.xml"/>
+		<mapping resource="com/my/bean/ClassRoom.hbm.xml"/>
+		<!-- <mapping class="com.my.bean2.Emp"/>
+		<mapping class="com.my.bean2.Dept"/> -->
+    </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+          "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+
+<struts>
+  <!-- 配置国际化资源文件 -->
+  <constant name="struts.custom.i18n.resources" value="i18n" />
+  <!-- 开启开发模式，这样出错会有更详细的显示信息，便于调试 -->
+  <constant name="struts.devMode" value="true" />
+  <!-- 设置action请求的后缀名 -->
+  <constant name="struts.action.extension" value="action,html,," />
+  <package name="default" namespace="/" extends="struts-default">
+  		<action name="list" class="com.my.action.ClassRoomAction" method="list">
+  			<result name="list">/WEB-INF/jsp/classlist.jsp</result>
+  		</action>
+  		<action name="details" class="com.my.action.ClassRoomAction" method="details">
+  			<result name="details">/WEB-INF/jsp/details.jsp</result>
+  		</action>
+  		<action name="addStudentPager" class="com.my.action.ClassRoomAction" method="addStudentPager">
+  			<result name="addStudentPager">/WEB-INF/jsp/StudentAdd.jsp</result>
+  		</action>
+  		<action name="addStudent" class="com.my.action.ClassRoomAction" method="addStudent">
+  			<result name="addStudentPager">/WEB-INF/jsp/StudentAdd.jsp</result>
+  			<result name="list" type="redirect">list</result>
+  		</action>
+  </package>
+  
+  
+  
+ 
+
+</struts>

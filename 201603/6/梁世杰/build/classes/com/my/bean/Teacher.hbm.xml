@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-11-13 20:31:04 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.my.bean.Teacher" table="TEACHER_">
+        <id name="tid" type="int">
+            <column name="TID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="sex" type="int">
+            <column name="SEX" />
+        </property>
+        <many-to-one name="classRoom" class="com.my.bean.ClassRoom" fetch="select" lazy="false" >
+            <column name="CLASSROOM" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
