@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+	
+	<class name="com.s126.bean.Teacher" table="teacher">
+		<id name="teacherid" column="t_id">
+			<generator class="native"></generator>
+		</id>
+		
+		<property name="teachername" column="t_name" length="22"></property>
+		
+		<set name="students" inverse="true" cascade="save-update" table="student_teacher">
+			<key column="t_id"></key>
+			<many-to-many class="com.s126.bean.Student" column="s_id">
+			</many-to-many>
+		</set>
+	</class>	
+</hibernate-mapping>
