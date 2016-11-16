@@ -1,0 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
+
+
+<footer id="footer">
+	<div class="container">
+		<p>项目培训 | 合作事宜 | 版权投诉</p>
+		<p>粤ICP 备12345678. © 2016-2099 南方IT学院. Powered by S3SJ126.</p>
+	</div>
+</footer>
+

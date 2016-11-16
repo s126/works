@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+	"-//Apache Struts//XWork Validator 1.0.3//EN"
+	"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+<field name="emp.name">
+	<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>姓名不能为空</message>
+	</field-validator>		
+	<field-validator type="regex">
+			<param name="regex"><![CDATA[[a-zA-Z]{4,20}]]></param>
+			<message>名字需要由4位以上英文字符组成</message>
+		</field-validator>
+</field>
+<field name="emp.sal">
+	<field-validator type="required">
+			<param name="trim">true</param>
+			<message>薪资不能为空</message>
+	</field-validator>		
+	<field-validator type="int">
+			<param name="min">2000</param>
+			<param name="max">20000</param>
+			<message>工资不符合该职位</message>
+	</field-validator>
+</field>
+</validators>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+	"-//Apache Struts//XWork Validator 1.0.3//EN"
+	"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+	
+	<!-- 这是一个公用的验证配置，用于验证 LoginAction 中出现的字段 -->
+	
+	<!-- 验证 name 字段 -->
+	<field name="name">
+		<field-validator type="regex">
+			<param name="regex"><![CDATA[\w{3,}]]></param>
+			<message>名字需要由 3 位以上英文字符组成</message>
+		</field-validator>
+	</field>
+
+</validators>

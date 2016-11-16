@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+	"-//Apache Struts//XWork Validator 1.0.3//EN"
+	"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+<field name="min">
+	<field-validator type="int">
+			<param name="min">0</param>
+			<param name="max">20000</param>
+			<message>工资不符合</message>
+	</field-validator>
+</field>
+<field name="max">
+	<field-validator type="int">
+			<param name="min">0</param>
+			<param name="max">20000</param>
+			<message>工资不符合</message>
+	</field-validator>
+</field>
+<field name="max">
+	<field-validator type="fieldexpression">
+			<param name="expression"><![CDATA[max>min]]></param>
+			<message>最大工资必须要大于最小工资</message>
+	</field-validator>
+</field>
+</validators>

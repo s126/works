@@ -1,0 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
+<header>
+
+<div style="width: 100%; height: 100px; background: orange; border-bottom: 1px solid red; margin-bottom: 20px;">
+<h1 style="float: left;"><a href="<%= request.getContextPath() %>/index.htm">管理系统</a></h1>
+<div style="float:right;"><a href="#">注销</a></div>
+<div style="float:right;">欢迎您，某某老师。</div>
+</div>
+
+</header>

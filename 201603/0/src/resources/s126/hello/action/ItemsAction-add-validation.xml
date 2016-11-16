@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+	"-//Apache Struts//XWork Validator 1.0.3//EN"
+	"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+
+<validators>
+
+	<!-- 对商品名字进行验证 -->
+	<field name="item.name">
+		<field-validator type="requiredstring">
+			<message>请填写商品名字</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">4</param>
+			<param name="maxLength">20</param>
+			<message>商品的名字长度必须在 ${minLength} 和 ${maxLength} 之间</message>
+		</field-validator>
+	</field>
+	
+	
+	<!-- 对价格进行验证-->
+	<field name="item.price">
+		<field-validator type="required">
+			<message>请填写商品价格</message>
+		</field-validator>
+		<field-validator type="fieldexpression">
+			<param name="expression"><![CDATA[item.price > 0]]></param>
+			<message>商品的价格需要大于0</message>
+		</field-validator>
+	</field>
+	
+	<!-- 对创建日期进行验证 -->
+	<field name="item.cdate">
+		<field-validator type="required">
+			<message>请填写创建日期</message>
+		</field-validator>
+	</field>
+
+</validators>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+          "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+  <!-- 测试模块 -->
+  <package name="test" namespace="/test" extends="default">
+    
+    <!-- 这是一个拦截器的测试请求 -->
+    <!-- 首先自定义两个拦截器 -->
+    <!-- 请大家自己调试下代码，了解下拦截器的大致流程。 -->
+    <interceptors>
+      <interceptor name="aaa" class="test.interceptor.AI"></interceptor>
+      <interceptor name="bbb" class="test.interceptor.BI"></interceptor>
+    </interceptors>
+    
+    <action name="interceptor" class="test.action.TestAction" method="testInterceptor">
+      <!-- 这个请求使用下面两个定义的拦截器。可以执行看看输出顺序 -->
+      <interceptor-ref name="aaa" />
+      <interceptor-ref name="bbb" />
+      <result>/WEB-INF/jsp/login/error.jsp</result>
+    </action>
+    
+    <action name="testNoDefault" class="test.action.TestAction" method="testNoDefault">
+      <result>/test/testNoDefault.jsp</result>
+      <interceptor-ref name="aaa"></interceptor-ref>
+      <interceptor-ref name="defaultStack"></interceptor-ref>
+    </action>
+
+    <!-- 这是一个测试 ognl的请求 -->
+    <action name="ognl" class="test.action.OgnlAction" method="testOGNL">
+      <result>/test/ognl.jsp</result>
+    </action>
+    
+    <action name="tags" class="test.action.TagsAction" method="tags">
+      <result>/test/tags.jsp</result>
+    </action>
+    
+    <!-- i18n 测试 -->
+    <action name="i18n" class="test.action.I18nAction">
+      <result>/test/i18n.jsp</result>
+    </action>
+    
+  </package>
+
+</struts>

@@ -1,0 +1,49 @@
+/* body{
+	margin: 0 auto;
+	background:url(../img/bj.jpg) no-repeat;
+	background-size: cover; 
+}  */
+/* .centerblock {
+	margin: 0 auto;
+	width: 440px;
+	border:1px solid #000;
+}  */
+body{
+	overflow-x:hidden; 
+}
+/* 头部三个搜索框 */
+.form-control-input{
+	display:inline;
+}
+#logo{
+	/* 登录logo */
+	margin: 0 auto;
+	width: 400px;
+}
+#logo img {
+	/* 登录logo */
+	width: 400px;
+	height: 300px;
+}
+#register{
+	/* 前往注册或登录 */
+	font-size: 15px;
+	margin: 0 auto;
+	width: 200px;
+}
+#seek{
+	/* 三个搜索 */
+	/* border: 1px solid #000;  */
+	margin: 55px auto 0 auto ;
+	width: 1200px;
+	padding-left: 10px;
+}
+#footer {
+	/* 页脚 */
+	margin-top: 220px;
+	background-color: #666;
+	border-top: 1px solid #ccc;
+	padding: 20px;
+	text-align: center;
+	color: #eee;
+}
