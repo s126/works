@@ -1,0 +1,41 @@
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+	
+	     <!-- oracle数据库驱动 -->  
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>  
+        <!-- oracle数据库名称 -->  
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@127.0.0.1:1521:orcl</property>  
+        <!-- 数据库的登陆用户名 -->  
+        <property name="hibernate.connection.username">sottp</property>  
+        <!-- 数据库的登陆密码 -->  
+        <property name="hibernate.connection.password">asd</property>  
+        <!-- 方言：为每一种数据库提供适配器，方便转换 -->  
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property> 
+	
+		<property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
+     
+      	 <mapping class="many2Many.Student"/>
+		 <mapping class="many2Many.Teacher"/>
+
+	</session-factory>	
+	
+	
+</hibernate-configuration>
+
+
+
+	
