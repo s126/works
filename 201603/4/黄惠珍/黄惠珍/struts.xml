@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+          "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+
+<struts>
+  <!-- 配置国际化资源文件 -->
+  <constant name="struts.custom.i18n.resources" value="i18n" />
+  <!-- 开启开发模式，这样出错会有更详细的显示信息，便于调试 -->
+  <constant name="struts.devMode" value="true" />
+  <!-- 设置action请求的后缀名 -->
+  <constant name="struts.action.extension" value="action,html,," />
+  <!-- 是否开启 DMI 模式，默认不建议开启，会导致严重的安全问题 -->
+  <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+
+
+  
+  <!-- 第一个模块，登陆注册 -->
+  <package name="default" namespace="/login" extends="json-default">
+
+    <global-results>
+      <result name="error">/WEB-INF/jsp/login/error.jsp</result>
+      <result name="index" type="redirect">/login/login</result>
+    </global-results>
+
+    <global-exception-mappings>
+      <exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+    </global-exception-mappings>
+    
+    
+    <!-- 显示登录的主页面 -->
+    <!-- 请求的 url 为 localhost:8088/hello/login/login.action -->
+    <action name="login">
+      <result>/WEB-INF/jsp/login/login.jsp</result>
+    </action>
+
+    <!-- 完成登录相关的操作 -->
+    <!-- 请求的 url 为 localhost:8088/hello/login/loginSubmit.action -->
+    <action name="loginSubmit" class="s126.hello.action.LoginAction" method="loginSubmit">
+      <!-- 类型，重定向和转发 -->
+      <result type="redirect">/emp/listAll.html</result>
+      <result name="fail">/WEB-INF/jsp/login/fail.jsp</result>
+      <result name="input">/WEB-INF/jsp/login/login.jsp</result>
+    </action>
+
+
+    <!-- 显示注册的页面 -->
+    <!-- 请求的 url 为 localhost:8088/hello/login/register.action -->
+    <action name="register" class="s126.hello.action.LoginAction" method="registerIndex">
+      <result>/WEB-INF/jsp/login/register.jsp</result>
+    </action>
+
+
+    <!-- 完成注册相关的操作 -->
+    <!-- 请求的 url 为 localhost:8088/hello/login/registerSubmit.action -->
+    <action name="registerSubmit" class="s126.hello.action.LoginAction" method="registerSubmit">
+      <result name="success">/WEB-INF/jsp/login/welcome.jsp</result>
+      <result name="fail">/WEB-INF/jsp/login/fail.jsp</result>
+      <result name="input">/WEB-INF/jsp/login/register.jsp</result>
+    </action>
+    
+    
+    <!-- 验证用户名是否已经存在 -->
+    <!-- 以下是三种实现方式 -->
+    <action name="judgeUsername1" class ="s126.hello.action.LoginAction" method="judgeUsername" />
+    
+    <action name="judgeUsername2" class ="s126.hello.action.LoginAction" method="judgeUsername2">
+      <result type="stream">
+        <param name="contentType">text/html;charset=UTF-8</param>
+      </result>
+    </action>
+    
+    <action name="judgeUsername3" class ="s126.hello.action.LoginAction" method="judgeUsername3">
+      <result type="json">
+        <param name="root">result</param>
+      </result>
+    </action>
+    
+    <action name="logout" class="s126.hello.action.LoginAction" method="logout">
+    </action>
+    <action name="exit" class="s126.hello.action.LoginAction" method="exit">
+    </action>
+    
+  </package>
+
+
+
+  <!-- 第二个模块，员工管理 -->
+  <package name="emp" namespace="/emp" extends="default">
+    
+    <!-- 声明自定义拦截器 -->
+    <interceptors>
+      <interceptor name="privs" class="s126.hello.interceptor.PrivsInterceptor"></interceptor>
+      <interceptor-stack name="privsStack">
+        <!-- 进行权限检查控制 -->
+        <interceptor-ref name="privs"></interceptor-ref>
+        <!-- 防止重复提交 -->
+        <interceptor-ref name="token">
+          <param name="includeMethods">addSubmit</param>
+        </interceptor-ref>
+        <!-- 默认拦截器栈 -->
+        <interceptor-ref name="defaultStack"></interceptor-ref>
+      </interceptor-stack>
+    </interceptors>
+    
+    <default-interceptor-ref name="privsStack"></default-interceptor-ref>
+    
+    <action name="searchEmp" class="s126.hello.action.EmpAction" method="search">
+      <result type="json">
+        <param name="root">emps</param>
+      </result>
+    </action>
+
+    <action name="*" class="s126.hello.action.EmpAction" method="{1}">
+      <result name="invalid.token" type="redirectAction">error</result>
+      <result name="list">/WEB-INF/jsp/emp/list.jsp</result>
+      <result name="addIndex">/WEB-INF/jsp/emp/addIndex.jsp</result>
+      <result name="update">/WEB-INF/jsp/emp/update.jsp</result>
+      <result name="delete">/WEB-INF/jsp/emp/delete.jsp</result>
+      <result name="input">/WEB-INF/jsp/emp/addIndex.jsp</result>
+    </action>
+    <!-- 添加员工  -->
+    
+  </package>
+
+
+
+
+  <!-- 第三个模块，商品管理 -->
+  <package name="items" namespace="/items" extends="default">
+    
+    <action name="list" class="s126.hello.action.ItemsAction" method="list">
+      <result>/WEB-INF/jsp/items/list.jsp</result>
+    </action>
+    
+    <action name="down" class="s126.hello.action.ItemsAction" method="down">
+      <result type="chain">list</result>
+    </action>
+    
+    <action name="up" class="s126.hello.action.ItemsAction" method="up">
+      <result type="chain">list</result>
+    </action>
+    
+    <action name="addindex">
+      <result>/WEB-INF/jsp/items/addindex.jsp</result>
+    </action>
+    
+    <action name="add" class="s126.hello.action.ItemsAction" method="add">
+      <result type="chain">list</result>
+      <result name="input">/WEB-INF/jsp/items/addindex.jsp</result>
+    </action>
+    
+  </package>
+  
+  
+	<!-- 班级与老师学生关系模块 -->
+  <package name="main" namespace="/main" extends="default">
+  	<action name="addstu" class="test.hibernate.demo.classroom.MainAction" method="addstu">
+      <result>/WEB-INF/jsp/main/addstu.jsp</result>
+    </action>
+    <action name="addTea" class="test.hibernate.demo.classroom.MainAction" method="addTea">
+      <result>/WEB-INF/jsp/main/addTea.jsp</result>
+    </action>
+    <action name="addClass" class="test.hibernate.demo.classroom.MainAction" method="addClass">
+      <result>/WEB-INF/jsp/main/addClass.jsp</result>
+    </action>
+    <action name="QueryStu" class="test.hibernate.demo.classroom.MainAction" method="QueryStu">
+      <result>/WEB-INF/jsp/main/QueryStu.jsp</result>
+    </action>
+    <action name="QueryTea" class="test.hibernate.demo.classroom.MainAction" method="QueryTea">
+      <result>/WEB-INF/jsp/main/QueryTea.jsp</result>
+    </action>
+    <action name="QueryClass" class="test.hibernate.demo.classroom.MainAction" method="QueryClass">
+      <result>/WEB-INF/jsp/main/QueryClass.jsp</result>
+    </action>
+  </package>
+ 
+  <include file="struts-test.xml"></include>
+
+</struts>
